@@ -19,3 +19,15 @@ ion-label{
         font-size: 0.9rem;
     }
 }
+
+ion-item{
+    ion-thumbnail{
+        height:15vh;
+        width: 25vw;
+        img{
+            border-radius:5px;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
