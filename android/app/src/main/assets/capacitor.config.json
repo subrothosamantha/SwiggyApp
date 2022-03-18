@@ -1,0 +1,9 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "swiggycloneapp",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"server": {
+		"url": "http://192.168.29.49:8101"
+	}
+}
