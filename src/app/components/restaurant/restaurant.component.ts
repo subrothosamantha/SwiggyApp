@@ -10,7 +10,7 @@ export class RestaurantComponent implements OnInit {
   constructor() { }
   
 
- @Input() restaurents : any[];
+ @Input() restaurants : any[];
 
   ngOnInit() {}
 

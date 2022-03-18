@@ -1,12 +1,12 @@
 
-<ion-item *ngFor="let restaurent of restaurents"  (click)="ngOnInit()">
+<ion-item *ngFor="let restaurant of restaurants">
   <ion-thumbnail slot="start">
-      <img [src]="restaurent.banner">
+      <img [src]="restaurant.banner">
   </ion-thumbnail>
   <ion-label>
-    <h3>{{restaurent.dish}}</h3>
+    <h3>{{restaurant.dish}}</h3>
     <ion-text>
-      <p>{{restaurent.cuisine}}</p>
+      <p>{{restaurant.cuisine}}</p>
     </ion-text>
     <span>
       <ion-icon color="primary" name="star"></ion-icon>
@@ -15,9 +15,9 @@
       <ion-icon name="star"></ion-icon>
       <ion-icon name="star"></ion-icon>
     </span>
-    {{restaurent.time}}
+    {{restaurant.time}}
     <ion-text>
-      <h3>{{restaurent.price}}-</h3>
+      <h3>{{restaurant.price}}-</h3>
     </ion-text>
   </ion-label>
 </ion-item>
