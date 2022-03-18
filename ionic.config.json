@@ -1,0 +1,7 @@
+{
+  "name": "swiggycloneapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
