@@ -1,12 +1,47 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>home</ion-title>
-    <ion-buttons>
-      <ion-back-button [routerLink]="['/','{/home}']"></ion-back-button>
-    </ion-buttons>
+    <ion-title>
+      <span>Home</span>
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </ion-title>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="borderBottom">
+    <ion-slides pager="true" [options]="slideOptions">
+      <ion-slide>
+        <div [ngStyle]="{'background-image':'url('+'assets/img/1.jpg'+')'}">
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div [ngStyle]="{'background-image':'url('+'assets/img/2.jpg'+')'}">
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div [ngStyle]="{'background-image':'url('+'assets/img/3.jpg'+')'}">
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <ion-list>
+    <ion-list-header class="ion-margin-bottom">
+      <ion-label>
+        <h3>
+          Restaurants Nearby
+        </h3>
+        <p>
+          Discover unique tastes near you
+        </p>
+      </ion-label>
+    </ion-list-header>
+    <ion-item lines="none">
+      <ion-thumbnail slot="start">
+          <img src="assets/img/3.jpg">
+      </ion-thumbnail>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

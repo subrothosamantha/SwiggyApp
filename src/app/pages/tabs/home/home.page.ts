@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
+  slideOptions = {
+    slidesPerView:1.1
+  }
+
   constructor() { }
 
   ngOnInit() {
