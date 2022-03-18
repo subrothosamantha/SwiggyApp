@@ -10,28 +10,6 @@ ion-header{
     }
 }
 
-ion-slides{
-    --bullet-background: black;
-    --bullet-color:var(--ion-color-secondary);
-    height:30vh;
-    
-    div{
-        height: 20vh;
-        width: 94%;
-        margin:auto;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 2px;
-        object-fit: cover;
-    }
-
-}
-
-.borderBottom{
-    border-bottom: 1.5vh solid var(--ion-color-light);
-}
-
 ion-label{
     h3{
         font-weight: bold !important;
@@ -39,17 +17,5 @@ ion-label{
     }
     p{
         font-size: 0.9rem;
-    }
-}
-
-ion-item{
-    ion-thumbnail{
-        height:15vh;
-        width: 25vw;
-        img{
-            border-radius:5px;
-            height: 100%;
-            width: 100%;
-        }
     }
 }

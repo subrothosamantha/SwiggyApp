@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="md">
     <ion-title>
       <span>Home</span>
       <ion-icon name="chevron-down-outline"></ion-icon>
@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="borderBottom">
+    <!-- <div class="borderBottom">
     <ion-slides pager="true" [options]="slideOptions">
       <ion-slide>
         <div [ngStyle]="{'background-image':'url('+'assets/img/1.jpg'+')'}">
@@ -24,7 +24,9 @@
         </div>
       </ion-slide>
     </ion-slides>
-  </div>
+  </div> -->
+
+  <app-banner></app-banner>
 
   <ion-list>
     <ion-list-header class="ion-margin-bottom">
@@ -37,28 +39,9 @@
         </p>
       </ion-label>
     </ion-list-header>
-    <ion-item lines="none">
-      <ion-thumbnail slot="start">
-          <img src="assets/img/3.jpg">
-      </ion-thumbnail>
-      <ion-label>
-        <h3>Stayfit</h3>
-        <ion-text>
-          <p>Italian,Mexican</p>
-        </ion-text>
-        <span>
-          <ion-icon color="primary" name="star"></ion-icon>
-          <ion-icon color="primary" name="star"></ion-icon>
-          <ion-icon color="primary" name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-        </span>
-        25 Mins
-        <ion-text>
-          <h3>₹200/-</h3>
-        </ion-text>
-      </ion-label>
-    </ion-item>
+
+     <app-restaurant></app-restaurant>   
+     
   </ion-list>
 
 </ion-content>

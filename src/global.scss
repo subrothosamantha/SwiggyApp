@@ -24,3 +24,27 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.borderBottom{
+    border-bottom: 1.5vh solid var(--ion-color-light);
+} 
+
+ion-title{
+    font-weight: bold;
+}
+ion-lable, h4{
+    font-weight: bold !important;
+    font-size: 0.9rem;
+}
+
+ion-note,p{
+    font-size:0.8rem;
+}
+
+h5{
+    font-size: 0.85rem;
+}
+
+h6{
+    font-size: 0.82rem;
+}
