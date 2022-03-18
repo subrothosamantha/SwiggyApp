@@ -10,7 +10,7 @@ export class HomePage implements OnInit {
   banner:any[];
   restaurants: any[]; 
   isLoading: boolean = false;
-  dummy= Array(10);
+  
 
   constructor() { }
 

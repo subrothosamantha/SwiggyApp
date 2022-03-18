@@ -4,19 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 import { RestaurantComponent } from './restaurant/restaurant.component';
+import { LoadingRestaurantComponent } from './loading-restaurant/loading-restaurant.component';
 
 
 
 
 @NgModule({
-  declarations: [RestaurantComponent],
+  declarations: [RestaurantComponent,LoadingRestaurantComponent],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule
   ],
   exports:[
-    RestaurantComponent
+    RestaurantComponent,
+    LoadingRestaurantComponent
   ],
   entryComponents:[]
 })
