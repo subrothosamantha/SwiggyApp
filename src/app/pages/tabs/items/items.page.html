@@ -54,6 +54,54 @@
       <ion-toggle mode="md" color="success" (ionChange)="vegOnly($event)" [(ngModel)]="veg">
          </ion-toggle>
     </ion-row>
+
+    <ion-list *ngFor="let catagory of categories">
+      <ion-list-header>
+      {{catagory?.name}}
+      </ion-list-header>
+
+
+      <ng-container *ngFor="let item of items let i = index">
+
+        <ion-item *ngIf="catagory.id == item.category_id">
+          <ion-thumbnail slot="start"> 
+             <img [src]="item?.cover">
+          </ion-thumbnail>
+          <ion-label>
+            <h4>{{item.name}}</h4>
+            <p class="ion-text-wrap">{{item.desc}}</p>
+            <ion-text><p>{{item.price}}</p></ion-text>
+          </ion-label>
+
+          <!-- <ion-row >
+            <ion-text class="ion-padding-horizontal" color="success">Add</ion-text>
+          </ion-row> -->
+
+          <ion-row>
+            <ion-icon color="success" name="remove-outline"></ion-icon>
+            <ion-text class="ion-text-center quantity" color="success">1</ion-text>
+            <ion-icon color="success" name="add-outline"></ion-icon>
+          </ion-row>
+        </ion-item>
+
+      </ng-container>
+
+    </ion-list>
   </ion-grid>
 
 </ion-content>
+
+<ion-footer>
+<ion-toolbar  color="success">
+  <ion-label>
+    <h4>1 item | </h4>
+    <ion-text>
+      <p>Extra charges may apply</p>
+    </ion-text>
+  </ion-label>
+  <ion-button slot="end" fill="clear">
+    <ion-icon slot="end" name="basket-outline"></ion-icon>
+    View Cart
+  </ion-button>
+</ion-toolbar>
+</ion-footer>

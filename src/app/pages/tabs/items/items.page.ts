@@ -21,12 +21,100 @@ export class ItemsPage implements OnInit {
   id:any;
   data: any = {};
   items:any[] = [];
-  categories:any[] = [];
+  
   value:any = {};
   veg:boolean = false;
   constructor(private route:ActivatedRoute,
           private navCtrl:NavController) {
    }
+
+
+   categories: any[] = [
+    {
+      id: "e00",
+      name: "Coffee",
+      uid: "12wefdss"
+    },
+    {
+      id: "e0",
+      name: "Cappuccino",
+      uid: "12wefdss"
+    },
+    {
+      id: "e000",
+      name: "Doughnut",
+      uid: "12wefdss"
+    },
+  ]; 
+
+  allItems = [
+    {
+        category_id: "e00",
+        cover: "assets/img/creamy.jpg",
+        desc: "Refreshing ",
+        id: "i1",
+        name: "Creamy coffee",
+        price: "₹120/",
+        rating: 4,
+        status: true,
+        uid: "12wefdss",
+        variation: true,
+        veg: false
+    },
+    {
+        category_id: "e0",
+        cover: "assets/img/cap.jpg",
+        desc: "Cooling Crisp",
+        id: "i2",
+        name: "Cappuccino",
+        price: "₹120/",
+        rating: 0,
+        status: true,
+        uid: "12wefdss",
+        variation: false,
+        veg: true
+    },
+    {
+        category_id: "e00",
+        cover: "assets/img/black.jpg",
+        desc: "Great in taste",
+        id: "i3",
+        name: "Black Coffee",
+        price: "₹80/",
+        rating: 0,
+        status: true,
+        uid: "12wefdss",
+        variation: false,
+        veg: false
+    },
+    {
+      category_id: "e000",
+      cover: "assets/img/d2.jpg",
+      desc: "Sweet in taste",
+      id: "i4",
+      name: "Daughnuts",
+      price: "₹100/",
+      rating: 0,
+      status: true,
+      uid: "12wefdss",
+      variation: false,
+      veg: false
+  },
+  {
+    category_id: "e000",
+    cover: "assets/img/d1.jpg",
+    desc: "Sweet in taste",
+    id: "i5",
+    name: "Daughnuts",
+    price: "₹100/",
+    rating: 0,
+    status: true,
+    uid: "12wefdss",
+    variation: false,
+    veg: false
+},
+  ];
+
 
   ngOnInit() {
     this.uid = this.route.queryParams;
@@ -51,6 +139,7 @@ export class ItemsPage implements OnInit {
     this.value = this.restaurants.filter(x=> x.uid == this.id);
     this.data = this.value[0];
    // console.log(this.data);
+   this.items = this.allItems;
     
   }
 
