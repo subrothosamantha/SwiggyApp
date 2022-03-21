@@ -12,12 +12,14 @@
 
 <ion-content>
   <app-loading-restaurant *ngIf="isLoading"></app-loading-restaurant>
-  <ion-list>
-    <ion-item-header>
+
+  <app-empty-screen *ngIf="!isLoading && (restaurant.length == 0 || query.length == 0)" [model]="model"></app-empty-screen>
+  <ion-list *ngIf="!isLoading && restaurant.length > 0">
+    <ion-list-header>
       <ion-label>
         <h4>search results for "{{query}}"</h4>
       </ion-label>
-    </ion-item-header>
+    </ion-list-header>
     <app-restaurant [restaurants]="restaurant"></app-restaurant>
   </ion-list>
 

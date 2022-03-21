@@ -15,12 +15,16 @@ export class SearchPage implements OnInit {
   allRestaurants: any[] = [
     {banner:'assets/img/3.jpg',dish:"stayfit",short_name:'stayfit',cuisine:['Italian','Mexican'],time:"25 Mins",price:"₹200/",rating:"3"},
     {banner:'assets/img/2.jpg',dish:"Veggies Fresh",short_name:'veggiesfresh',cuisine:["French","Mexican"],time:"15 Mins",price:"₹150/"},
-    {banner:'assets/img/1.jpg',dish:"Bread Toast",short_name:'breadtoast',cuisine:["French","Mexican"],time:"10 Mins",price:"₹100/"}
+    {banner:'assets/img/1.jpg',dish:"Bread Toast",short_name:'bread-toast',cuisine:["French","Mexican"],time:"10 Mins",price:"₹100/"}
   ];
   query : any;
   isLoading:boolean;
 
   restaurant: any[] = [];
+  model:any = {
+    icon:'search-outline',
+    title:'no restaurant matching record'
+  }
 
   constructor() { }
 
@@ -30,13 +34,20 @@ export class SearchPage implements OnInit {
     },500)
   }
 
-  onSearchChange(event){
-    console.log(event.detail.value);
-    this.query = event.detail.value.toLowerCase();
+ async onSearchChange(event){
+    
+    this.query = event.detail.value.toLowerCase().replace(/ /g,'');
+   
     if(this.query.length>0){
-      this.restaurant = this.allRestaurants.filter((element:any)=>{
-          return element.short_name.includes(this.query);
-      });
+      this.isLoading = true;
+
+      setTimeout(async()=>{
+        this.restaurant = await this.allRestaurants.filter((element:any)=>{
+            return element.short_name.includes(this.query);
+        });
+        this.isLoading = false;
+      
+      },2000);
       console.log(this.restaurant);
     }
   }
