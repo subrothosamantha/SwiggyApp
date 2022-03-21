@@ -6,6 +6,9 @@ import { IonicModule } from '@ionic/angular';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { LoadingRestaurantComponent } from './loading-restaurant/loading-restaurant.component';
 import { EmptyScreenComponent } from './empty-screen/empty-screen.component';
+import { RouterLink } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
+import { ItemsPageRoutingModule } from '../pages/tabs/items/items-routing.module';
 
 
 
@@ -15,7 +18,8 @@ import { EmptyScreenComponent } from './empty-screen/empty-screen.component';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    ItemsPageRoutingModule
   ],
   exports:[
     RestaurantComponent,

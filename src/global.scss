@@ -48,3 +48,11 @@ h5{
 h6{
     font-size: 0.82rem;
 }
+
+.borderBottom{
+    border-bottom: 1.5rem solid var(--ion-color-light)
+}
+
+.borderBottomSmall{
+    border-bottom: 0.1rem solid var(--ion-color-light)
+}

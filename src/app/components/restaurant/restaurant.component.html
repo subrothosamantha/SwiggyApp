@@ -1,10 +1,11 @@
 
-<ion-item *ngFor="let restaurant of restaurants">
+<ion-item *ngFor="let restaurant of restaurants" 
+            [routerLink]="['/','tabs','restaurants', restaurant.uid]">
   <ion-thumbnail slot="start">
       <img [src]="restaurant.banner">
   </ion-thumbnail>
   <ion-label>
-    <h3>{{restaurant.dish}}</h3>
+    <h3>{{restaurant.name}}</h3>
     <ion-text>
       <p>{{restaurant.cuisine}}</p>
     </ion-text>
