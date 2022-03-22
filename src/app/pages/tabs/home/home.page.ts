@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
         {uid:3,banner:'assets/img/1.jpg',name:"Bread Toast",address:'South-west block sector 11,varanasi,uttar pradesh',short_name:'bread-toast',cuisine:["French","Mexican"],time:"10 Mins",price:"₹100/"}
       ];
       this.isLoading = false;
-    },/**yaha timer jayega */);
+    },2000);
    
   }
 

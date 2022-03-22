@@ -67,6 +67,7 @@ export class ItemsPage implements OnInit {
   veg: boolean = false;
   cartData: any = [];
   storedData: any = {};
+  isLoading:boolean;
 
   categories: any[] = [
     {
@@ -181,7 +182,7 @@ export class ItemsPage implements OnInit {
   async getItems() {
     //this.id which is restaurant id i.e siya = 4 should match with category id so that we
     //can show relavent menu
-
+    this.isLoading = true;
     this.data = {};
     this.cartData = {};
     this.storedData = {};
@@ -235,6 +236,9 @@ export class ItemsPage implements OnInit {
       this.cartData.totalItem = this.storedData.totalItem;
 
       this.cartData.totalPrice = this.storedData.totalPrice;
+      setTimeout(()=>{
+        this.isLoading = false;
+      },2000);
     }
   }
 
@@ -246,7 +250,7 @@ export class ItemsPage implements OnInit {
     else this.items = this.allItems;
   }
 
-  quantityPlus(item, index) {
+  quantityPlus( index) {
     try {
       //console.log(item);
       // console.log(this.items[index]);
@@ -263,7 +267,7 @@ export class ItemsPage implements OnInit {
     }
   }
 
-  quantityMinus(item, index) {
+  quantityMinus(index) {
     try {
       if (this.items[index].quantity !== 0) {
         this.items[index].quantity -= 1;
