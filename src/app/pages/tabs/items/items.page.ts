@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnyForUntypedForms } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@capacitor/storage';
 import { Key } from 'protractor';
@@ -12,7 +12,9 @@ import { Key } from 'protractor';
   styleUrls: ['./items.page.scss'],
 })
 export class ItemsPage implements OnInit {
-  constructor(private route: ActivatedRoute, private navCtrl: NavController) {}
+  constructor(private route: ActivatedRoute,
+     private navCtrl: NavController,
+     private router: Router ) {}
 
   uid: any;
   restaurants = [
@@ -315,7 +317,7 @@ export class ItemsPage implements OnInit {
   async viewcart() {
     if (this.cartData.items && this.cartData.items.length > 0)
       await this.saveToCart();
-    // this.router.navigate([this.router.url+'/cart'])
+      this.router.navigate([this.router.url+'/cart'])
     //const { value } = await Storage.get({key:'cart'});
     // let cart = JSON.parse(value);
     // console.log(cart);
