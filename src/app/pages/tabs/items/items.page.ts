@@ -287,11 +287,6 @@ export class ItemsPage implements OnInit {
   async viewcart() {
     if (this.cartData.items && this.cartData.items.length > 0)
       await this.saveToCart();
-     // this.router.navigate([this.router.url+'/cart'])
-     
-    //const { value } = await Storage.get({key:'cart'});
-    // let cart = JSON.parse(value);
-    // console.log(cart);
-    // console.log(this.getCart());
+     // this.router.navigate([this.router.url+'/cart']);
   }
 }
