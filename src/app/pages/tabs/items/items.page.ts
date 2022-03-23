@@ -189,42 +189,16 @@ export class ItemsPage implements OnInit {
     this.cartData = {};
     this.storedData = {};
     // fetching perticular list from array of list which is being clicked
+    setTimeout(async()=>{
     this.value = this.restaurants.filter((x) => x.uid == this.id);
     this.data = this.value[0];
     this.categories = this.categories.filter((x) => x.uid === this.id);
     // console.log(this.data);
     this.items = this.allItems.filter((x) => x.uid === this.id);
-
-    // let cart : any = Storage.get({key:'cart'});
-    //console.log("inside cart "+cart);
-
     let cart = await this.getCart();
-    //console.log(cart);
-
-    //  if(cart.length>0){
-    //  //  console.log('hello I am inside the cart');
-
-    //   this.storedData = JSON.parse(cart);
-    //  // console.log(this.storedData);
-
-    //    if(this.id == this.storedData.restaurant.uid && this.allItems.length > 0){
-    //      this.allItems.forEach((element:any) => {
-    //        this.storedData.items.forEach(ele =>{
-    //          if(element.id != ele.id)return;
-    //          element.quantity == ele.quantity;
-    //        });
-    //      });
-    //    }
-    //    this.cartData.totalItem = this.storedData.totalItem;
-    //    this.cartData.totalPrice = this.storedData.totalPrice;
-
-    //  }
-
     if (cart?.length) {
       this.storedData = JSON.parse(cart);
-
       console.log('storedData: ', this.storedData);
-
       if ( this.id == this.storedData.restaurant.uid && this.allItems.length > 0 ) {
         this.allItems.forEach((element: any) => {
           this.storedData.items.forEach((ele) => {
@@ -234,15 +208,13 @@ export class ItemsPage implements OnInit {
           });
         });
       }
-
       this.cartData.totalItem = this.storedData.totalItem;
-
       this.cartData.totalPrice = this.storedData.totalPrice;
-      setTimeout(()=>{
+    }
         this.isLoading = false;
       },2000);
     }
-  }
+  
 
   vegOnly(event) {
     console.log(event.detail.checked);
@@ -254,9 +226,7 @@ export class ItemsPage implements OnInit {
 
   quantityPlus( index) {
     try {
-      //console.log(item);
-      // console.log(this.items[index]);
-      // console.log(item);
+      
       if (!this.items[index].quantity || this.items[index].quantity == 0) {
         this.items[index].quantity = 1;
         this.calculate();
@@ -317,7 +287,8 @@ export class ItemsPage implements OnInit {
   async viewcart() {
     if (this.cartData.items && this.cartData.items.length > 0)
       await this.saveToCart();
-      this.router.navigate([this.router.url+'/cart'])
+     // this.router.navigate([this.router.url+'/cart'])
+     
     //const { value } = await Storage.get({key:'cart'});
     // let cart = JSON.parse(value);
     // console.log(cart);

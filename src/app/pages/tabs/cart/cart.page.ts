@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@capacitor/storage';
+import { IonContent } from '@ionic/angular';
+import { moveMessagePortToContext } from 'worker_threads';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cart',
@@ -8,26 +11,34 @@ import { Storage } from '@capacitor/storage';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
-   urlCheck: any;
+
+  @ViewChild(IonContent, {static:false}) content:IonContent;
+
+  urlCheck: any;
   url: any;
   model: any = {};
   deliveryCharge = 20;
   instruction: any;
+  location:any ;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.checkUrl();
-    this.getmodel();
+    this.getModel();
   }
 
   getCart() {
     return Storage.get({ key: 'cart' });
   }
 
-  async getmodel() {
+  async getModel() {
     let data: any = await this.getCart();
+    this.location = {
+      lat:17.433597, lng:78.501670, address:'secandrabad railway station'
+    };
     if (data?.value) {
+    //  this.model.icon = 'assets/img/empty.jpg';
       this.model = await JSON.parse(data.value);
       console.log(this.model);
       this.calculate();
@@ -82,19 +93,65 @@ export class CartPage implements OnInit {
   }
 
   quantityPlus(index) {
-   
+    try {
+      
+      if (!this.model.items[index].quantity || this.model.items[index].quantity == 0) {
+        this.model.items[index].quantity = 1;
+        this.calculate();
+      } else {
+        this.model.items[index].quantity += 1;
+        this.calculate();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  quantityMinus(index) {}
+  quantityMinus(index) {
+    try {
+      if (this.model.items[index].quantity !== 0) {
+        this.model.items[index].quantity -= 1;
+      } else {
+        this.model.items[index].quantity = 0;
+      }
+      this.calculate();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   addAddress() {}
 
   changeAddress() {}
 
   makePayment() {
-    console.log('make payment');
+    try{
+      const data = {
+        restaurant_id : this.model.restaurant_id,
+        rest : this.model.restaurant,
+        order: JSON.stringify(this.model.items),
+        time: moment().format('1111'),
+        address: this.location,
+        total:this.model.totalPrice,
+        delivaryCharges : this.model.delivaryCharge,
+        GrandTotal_incl_gst: this.model.grandTotal,
+        Status: 'Created',
+        paid: 'CoD'
+      }
+      console.log(data);
+      
+      
+    }catch(e){
+     
+    }
+  }
+
+
+  scrollToBottom(){
+   this.content.scrollToBottom(500);
   }
 }
+
 
 
 
