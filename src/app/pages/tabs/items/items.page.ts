@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@capacitor/storage';
 import { Key } from 'protractor';
+import { ApiService } from 'src/app/services/api/api.service';
 
 //const{Storage} = Plugins;
 @Component({
@@ -14,53 +15,16 @@ import { Key } from 'protractor';
 export class ItemsPage implements OnInit {
   constructor(private route: ActivatedRoute,
      private navCtrl: NavController,
-     private router: Router ) {}
+     private router: Router,
+     private api: ApiService
+     ) {}
 
   uid: any;
-  restaurants = [
-    {
-      uid: 4,
-      banner: 'assets/img/4.jpg',
-      name: "Siya's Cafe",
-      address: 'South-west block sector 11,varanasi,uttar pradesh',
-      short_name: 'siyscafe',
-      cuisine: ['Coffee', 'Cappuccino'],
-      time: '5 Mins',
-      price: '₹80/',
-      rating: '5/5',
-    },
-    {
-      uid: 1,
-      banner: 'assets/img/3.jpg',
-      name: 'stayfit',
-      address: 'South-west block sector 11,varanasi,uttar pradesh',
-      short_name: 'stay_fit',
-      cuisine: ['Italian', 'Mexican'],
-      time: '25 Mins',
-      price: '₹200/',
-      rating: '3',
-    },
-    {
-      uid: 2,
-      banner: 'assets/img/2.jpg',
-      name: 'Veggies Fresh',
-      address: 'South-west block sector 11,varanasi,uttar pradesh',
-      short_name: 'veggies_fresh',
-      cuisine: ['French', 'Mexican'],
-      time: '15 Mins',
-      price: '₹150/',
-    },
-    {
-      uid: 3,
-      banner: 'assets/img/1.jpg',
-      name: 'Bread Toast',
-      address: 'South-west block sector 11,varanasi,uttar pradesh',
-      short_name: 'bread-toast',
-      cuisine: ['French', 'Mexican'],
-      time: '10 Mins',
-      price: '₹100/',
-    },
-  ];
+
+  restaurants : any[] = [];
+  categories: any[] = [];
+  allItems :any[]= [];
+
   id: any;
   data: any = {};
   items: any[] = [];
@@ -71,101 +35,17 @@ export class ItemsPage implements OnInit {
   storedData: any = {};
   isLoading:boolean;
 
-  categories: any[] = [
-    {
-      id: 'e00',
-      name: 'Coffee',
-      uid: '4',
-    },
-    {
-      id: 'e0',
-      name: 'Cappuccino',
-      uid: '4',
-    },
-    {
-      id: 'e000',
-      name: 'Doughnut',
-      uid: '4',
-    },
-  ];
 
-  allItems = [
-    {
-      category_id: 'e00',
-      cover: 'assets/img/creamy.jpg',
-      desc: 'Refreshing ',
-      id: 'i1',
-      name: 'Creamy coffee',
-      price: '₹120/',
-      price_tally: 120.0,
-      rating: 4,
-      status: true,
-      uid: '4',
-      variation: true,
-      veg: false,
-    },
-    {
-      category_id: 'e0',
-      cover: 'assets/img/cap.jpg',
-      desc: 'Cooling Crisp',
-      id: 'i2',
-      name: 'Cappuccino',
-      price: '₹120/',
-      price_tally: 120.0,
-      rating: 0,
-      status: true,
-      uid: '4',
-      variation: false,
-      veg: true,
-    },
-    {
-      category_id: 'e00',
-      cover: 'assets/img/black.jpg',
-      desc: 'Great in taste',
-      id: 'i3',
-      name: 'Black Coffee',
-      price: '₹80/',
-      price_tally: 80.0,
-      rating: 0,
-      status: true,
-      uid: '4',
-      variation: false,
-      veg: false,
-    },
-    {
-      category_id: 'e000',
-      cover: 'assets/img/d2.jpg',
-      desc: 'Sweet in taste',
-      id: 'i4',
-      name: 'Daughnuts',
-      price: '₹100.50/',
-      price_tally: 100.5,
-      rating: 0,
-      status: true,
-      uid: '4',
-      variation: false,
-      veg: false,
-    },
-    {
-      category_id: 'e000',
-      cover: 'assets/img/d1.jpg',
-      desc: 'Sweet in taste',
-      id: 'i5',
-      name: 'Daughnuts',
-      price: '₹100/',
-      price_tally: 100.0,
-      rating: 0,
-      status: true,
-      uid: '4',
-      variation: false,
-      veg: false,
-    },
-  ];
+ 
 
   ngOnInit() {
     this.uid = this.route.queryParams;
     this.route.paramMap.subscribe((paramMap) => {
       // console.log(paramMap);
+
+      this.restaurants = this.api.restaurantsItem;
+      this.categories = this.api.categories;
+      this.allItems = this.api.allItems;
 
       if (!paramMap.has('restaurantId')) {
         this.navCtrl.back();
