@@ -7,13 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { AddressPageRoutingModule } from './address-routing.module';
 
 import { AddressPage } from './address.page';
+import { EmptyScreenComponent } from 'src/app/components/empty-screen/empty-screen.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AddressPageRoutingModule
+    AddressPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [AddressPage]
 })
