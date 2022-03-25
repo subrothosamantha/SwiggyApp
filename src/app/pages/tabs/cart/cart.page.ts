@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { OrderService } from 'src/app/services/order/order.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -23,60 +24,46 @@ export class CartPage implements OnInit {
   deliveryCharge = 20;
   instruction: any;
   location:any ;
+  cartSub:Subscription;
 
   constructor(
     private navCtrl: NavController,
     private router: Router,
     private orderService:OrderService,
     private global: GlobalService,
-    private cartService: CartService) {}
+    private cartService: CartService,
+    
+    ) {}
 
   ngOnInit() {
-    this.checkUrl();
-    this.getModel();
+    this.cartSub = this.cartService.cart.subscribe(cart => {
+      this.model = cart;
+      if(!this.model)
+         this.location = {};
+    });
+   /// this.checkUrl();
+    this.getData();
   }
 
   getCart() {
     return Storage.get({ key: 'cart' });
   }
 
-  async getModel() {
+  async getData() {
+    await this.checkUrl();
     this.location = {
-      lat:17.433597, lng:78.501670, address:'secandrabad railway station'
+      lat: 28.653831, 
+      lng: 77.188257, 
+      address: 'Karol Bagh, New Delhi'
     };
+    await this.cartService.getCartData();
   }
 
   async calculate() {
-    let item = this.model.items.filter((x) => x.quantity > 0);
-    console.log('item: ', item);
-    this.model.items = item;
-    this.model.totalPrice = 0;
-    this.model.totalItem = 0;
-    this.model.deliveryCharge = 0;
-    this.model.grandTotal = 0;
-    item.forEach((element) => {
-      this.model.totalItem += element.quantity;
-      this.model.totalPrice +=
-        parseFloat(element.price_tally) * parseFloat(element.quantity);
-    });
-    this.model.deliveryCharge = this.deliveryCharge;
-    this.model.totalPrice = parseFloat(this.model.totalPrice).toFixed(2);
-    this.model.grandTotal = (
-      parseFloat(this.model.totalPrice) + parseFloat(this.model.deliveryCharge)
-    ).toFixed(2);
-    if (this.model.totalItem == 0) {
-      this.model.totalItem = 0;
-      this.model.totalPrice = 0;
-      this.model.grandTotal = 0;
-      await this.clearCart();
-      this.model = null;
-    }
-    console.log('cart: ', this.model);
+    // 
   }
 
-  clearCart() {
-    return Storage.remove({ key: 'cart' });
-  }
+  
 
   checkUrl() {
     let url: any = this.router.url.split('/');
@@ -109,6 +96,7 @@ export class CartPage implements OnInit {
     try{
       const data = {
         restaurant_id : this.model.restaurant_id,
+        instruction : this.instruction? this.instruction : "no instruction",
         rest : this.model.restaurant,
         order: JSON.stringify(this.model.items),
         time: moment().format('1111'),
@@ -122,7 +110,7 @@ export class CartPage implements OnInit {
       console.log(data);
       await this.orderService.placeOrder(data);
       //clearcart
-      await this.clearCart();
+      await this.cartService.clearCart();
       this.global.successToast('Your order is placed');
       this.navCtrl.navigateRoot(['tabs/account']);
     }catch(e){
@@ -133,6 +121,14 @@ export class CartPage implements OnInit {
 
   scrollToBottom(){
    this.content.scrollToBottom(500);
+  }
+
+  
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave CartPage');
+    if(this.model?.items && this.model?.items.length > 0) {
+      this.cartService.saveCart();
+    }
   }
 }
 

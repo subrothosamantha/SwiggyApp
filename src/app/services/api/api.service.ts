@@ -71,6 +71,11 @@ categories: any[] = [
   {
     id: 'e00',
     name: 'Coffee',
+    uid: '1',
+  },
+  {
+    id: 'e00',
+    name: 'Coffee',
     uid: '4',
   },
   {
@@ -86,6 +91,21 @@ categories: any[] = [
 ];
 
 allItems = [
+  
+  {
+    category_id: 'e00',
+    cover: 'assets/img/creamy.jpg',
+    desc: 'Refreshing ',
+    id: 'i1',
+    name: 'Creamy coffee',
+    price: '₹120/',
+    price_tally: 120.0,
+    rating: 4,
+    status: true,
+    uid: '1',
+    variation: true,
+    veg: false,
+  },
   {
     category_id: 'e00',
     cover: 'assets/img/creamy.jpg',

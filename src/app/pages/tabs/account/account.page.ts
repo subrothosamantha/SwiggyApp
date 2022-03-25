@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { OrderService } from 'src/app/services/order/order.service';
+
 
 @Component({
   selector: 'app-account',
@@ -14,15 +16,25 @@ export class AccountPage implements OnInit, OnDestroy {
   orders: any[] = [];
   ordersSub: Subscription;
 
-  constructor(private api: ApiService, private orderService: OrderService) {}
+  constructor(private api: ApiService,
+     private orderService: OrderService,
+     private cartService:CartService) {}
 
   ngOnInit() {
-    this.ordersSub = this.orderService.orders.subscribe(
-      (order) => {
-        console.log('order data: ', order);
-        if (order instanceof Array) {
-          this.orders = order;
+    this.ordersSub = this.orderService.orders.subscribe(order => {
+      console.log('order data: ', order);
+      if(order instanceof Array) {
+        this.orders = order;
+      } else {
+        if(order?.delete) {
+          this.orders = this.orders.filter(x => x.id != order.id);
+        } else if(order?.update) {
+          const index = this.orders.findIndex(x => x.id == order.id);
+          this.orders[index] = order;
+        } else {
+          this.orders = this.orders.concat(order);
         }
+      }
       },
       (e) => {
         console.log(e);
@@ -46,8 +58,16 @@ export class AccountPage implements OnInit, OnDestroy {
 
   logout() {}
 
-  reorder(order) {
+ async reorder(order) {
     console.log(order);
+    let data: any = await this.cartService.getCart();
+    console.log('data: ', data);
+    if(data?.value) {
+      this.cartService.alertClearCart(null, null, null, order);
+    } else {
+      this.cartService.orderToCart(order);
+    }
+    
   }
 
   getHelp(order) {
