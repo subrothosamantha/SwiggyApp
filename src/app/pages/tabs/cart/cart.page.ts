@@ -4,8 +4,9 @@ import { Storage } from '@capacitor/storage';
 import { IonContent, NavController } from '@ionic/angular';
 import { moveMessagePortToContext } from 'worker_threads';
 import * as moment from 'moment';
-import { OrderService } from 'src/app/services/order/order.service';
 import { GlobalService } from 'src/app/services/global/global.service';
+import { OrderService } from 'src/app/services/order/order.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -27,7 +28,8 @@ export class CartPage implements OnInit {
     private navCtrl: NavController,
     private router: Router,
     private orderService:OrderService,
-    private global: GlobalService) {}
+    private global: GlobalService,
+    private cartService: CartService) {}
 
   ngOnInit() {
     this.checkUrl();
@@ -39,16 +41,9 @@ export class CartPage implements OnInit {
   }
 
   async getModel() {
-    let data: any = await this.getCart();
     this.location = {
       lat:17.433597, lng:78.501670, address:'secandrabad railway station'
     };
-    if (data?.value) {
-    //  this.model.icon = 'assets/img/empty.jpg';
-      this.model = await JSON.parse(data.value);
-      console.log(this.model);
-      this.calculate();
-    }
   }
 
   async calculate() {
@@ -99,31 +94,11 @@ export class CartPage implements OnInit {
   }
 
   quantityPlus(index) {
-    try {
-      
-      if (!this.model.items[index].quantity || this.model.items[index].quantity == 0) {
-        this.model.items[index].quantity = 1;
-        this.calculate();
-      } else {
-        this.model.items[index].quantity += 1;
-        this.calculate();
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    this.cartService.quantityPlus(index);
   }
 
   quantityMinus(index) {
-    try {
-      if (this.model.items[index].quantity !== 0) {
-        this.model.items[index].quantity -= 1;
-      } else {
-        this.model.items[index].quantity = 0;
-      }
-      this.calculate();
-    } catch (e) {
-      console.log(e);
-    }
+    this.cartService.quantityMinus(index);
   }
 
   addAddress() {}
