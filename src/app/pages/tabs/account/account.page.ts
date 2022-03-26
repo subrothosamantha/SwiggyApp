@@ -59,9 +59,9 @@ export class AccountPage implements OnInit, OnDestroy {
   logout() {}
 
  async reorder(order) {
-    console.log(order);
+   // console.log(order);
     let data: any = await this.cartService.getCart();
-    console.log('data: ', data);
+   // console.log('data: ', data);
     if(data?.value) {
       this.cartService.alertClearCart(null, null, null, order);
     } else {

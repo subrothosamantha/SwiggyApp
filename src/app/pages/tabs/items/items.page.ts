@@ -66,6 +66,9 @@ export class ItemsPage implements OnInit,OnDestroy {
         // this.cartData.items = this.storedData.items;
         this.cartData.totalItem = this.storedData.totalItem;
         this.cartData.totalPrice = this.storedData.totalPrice;
+
+        //console.log('what inside all items '+ this.allItems)
+
         if(cart?.restaurant?.uid == this.id) {
           this.allItems.forEach(element => {
             cart.items.forEach(element2 => {
@@ -100,20 +103,17 @@ export class ItemsPage implements OnInit,OnDestroy {
   }
 
   async getItems() {
-    //this.id which is restaurant id i.e siya = 4 should match with category id so that we
-    //can show relavent menu
+   
     try{
       
       this.isLoading = true;
       this.data = {};
       this.cartData = {};
       this.storedData = {};
-      this.restaurants = this.api.restaurantsItem;
-      this.categories = this.api.categories;
-      this.allItems = this.api.allItems;
       // fetching perticular list from array of list which is being clicked
       setTimeout(async()=>{
-      this.value = this.api.restaurantsItem.filter((x) => x.uid == this.id);
+      this.allItems = this.api.allItems;
+      this.value = this.api.restaurant1.filter((x) => x.uid == this.id);
       this.data = this.value[0];
       this.categories = this.api.categories.filter((x) => x.uid === this.id);
       // console.log(this.data);
@@ -122,22 +122,7 @@ export class ItemsPage implements OnInit,OnDestroy {
 
       await this.cartService.getCartData();
 
-      // let cart = await this.getCart();
-      // if (cart?.length) {
-      //   this.storedData = JSON.parse(cart);
-      //   console.log('storedData: ', this.storedData);
-      //   if ( this.id == this.storedData.restaurant.uid && this.allItems.length > 0 ) {
-      //     this.allItems.forEach((element: any) => {
-      //       this.storedData.items.forEach((ele) => {
-      //         if (element.id != ele.id) return;
-  
-      //         element.quantity = ele.quantity;
-      //       });
-      //     });
-      //   }
-      //   this.cartData.totalItem = this.storedData.totalItem;
-      //   this.cartData.totalPrice = this.storedData.totalPrice;
-      //}
+     
           this.isLoading = false;
         },2000);
 
@@ -158,6 +143,8 @@ export class ItemsPage implements OnInit,OnDestroy {
 
   quantityPlus(item) {
     const index = this.allItems.findIndex(x => x.id === item.id);
+    console.log('quantity plus index number '+index);
+    
     console.log(index);
     if(!this.allItems[index].quantity || this.allItems[index].quantity == 0) {
       if(!this.storedData.restaurant || (this.storedData.restaurant && this.storedData.restaurant.uid == this.id)) {
@@ -173,38 +160,28 @@ export class ItemsPage implements OnInit,OnDestroy {
 
  async quantityMinus(item) {
   const index = this.allItems.findIndex(x => x.id === item.id);
-    this.cartService.quantityMinus(index);
+  this.cartService.quantityMinus(index);
   }
 
   saveToCart() {
     try {
       this.cartData.restaurant = {};
       this.cartData.restaurant = this.data;
-      console.log('save cartData: ', this.cartData);
+     // console.log('save cartData: ', this.cartData);
       this.cartService.saveCart();
     } catch(e) {
       console.log(e);
     }
-    // try {
-    //   this.cartData.restaurant = {};
-    //   this.cartData.restaurant = this.data;
-    //   //console.log(this.cartData);
-    //   console.log("cart data "+this.cartData);
-      
-    //   this.storageService.setStorage('cart',this.cartData);
-
-    //   // Storage.set({
-    //   //   key: 'cart',
-    //   //   value: JSON.stringify(this.cartData),
-    //   // });
-    // } catch (e) {}
+    
   }
 
    async viewcart() {
     console.log('save cartdata: ', this.cartData);
     if(this.cartData.items && this.cartData.items.length > 0) await this.saveToCart();
     console.log('router url: ', this.router.url);
-    this.router.navigate([this.router.url + '/cart']);
+    
+    
+    this.router.navigate(['/','tabs','cart']);
   }
 
   async ionViewWillLeave() {

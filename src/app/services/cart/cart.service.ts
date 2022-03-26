@@ -93,9 +93,6 @@ export class CartService {
  
 
  async quantityMinus(index) {
-   console.log('inside cart service');
-   console.log('printing model '+this.model.items[index]);
-   
   try {
     if(this.model.items[index].quantity !== 0) {
       this.model.items[index].quantity -= 1; // this.model.items[index].quantity = this.model.items[index].quantity - 1
@@ -112,24 +109,20 @@ export class CartService {
 
 
   async calculate() {
-    let item = this.model.items.filter((x) => x.quantity > 0);
-    console.log('item: ', item);
+    let item = this.model.items.filter(x => x.quantity > 0);
     this.model.items = item;
     this.model.totalPrice = 0;
     this.model.totalItem = 0;
     this.model.deliveryCharge = 0;
     this.model.grandTotal = 0;
-    item.forEach((element) => {
+    item.forEach(element => {
       this.model.totalItem += element.quantity;
-      this.model.totalPrice +=
-        parseFloat(element.price_tally) * parseFloat(element.quantity);
+      this.model.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity));
     });
     this.model.deliveryCharge = this.delivaryCharges;
     this.model.totalPrice = parseFloat(this.model.totalPrice).toFixed(2);
-    this.model.grandTotal = (
-      parseFloat(this.model.totalPrice) + parseFloat(this.model.deliveryCharge)
-    ).toFixed(2);
-    if (this.model.totalItem == 0) {
+    this.model.grandTotal = (parseFloat(this.model.totalPrice) + parseFloat(this.model.deliveryCharge)).toFixed(2);
+    if(this.model.totalItem == 0) {
       this.model.totalItem = 0;
       this.model.totalPrice = 0;
       this.model.grandTotal = 0;

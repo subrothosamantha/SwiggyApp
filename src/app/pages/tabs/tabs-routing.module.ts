@@ -31,13 +31,18 @@ const routes: Routes = [
         redirectTo: 'home',
         pathMatch:'full'
       },
-    ]
+    ],
+      
   },
-  
+  {
+    path: 'cart',
+    loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule)
+  },
   {
     path: 'restaurants/:restaurantId',
     loadChildren: () => import('./items/items.module').then( m => m.ItemsPageModule)
-  },  {
+  },
+  {
     path: 'address',
     loadChildren: () => import('./address/address.module').then( m => m.AddressPageModule)
   },
