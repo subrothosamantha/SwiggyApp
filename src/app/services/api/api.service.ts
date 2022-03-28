@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Address } from 'src/app/models/address.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,12 @@ export class ApiService {
     {uid:3,banner:'assets/img/1.jpg',name:"Bread Toast",short_name:'bread-toast',cuisine:["French","Mexican"],time:"10 Mins",price:"₹100/"}
  ];
 
- addresses = [      
+ addresses: Address[] = [      
   {address: "Fancy Bazaar, India", house: "2nd Floor", id: "7Kox63KlggTvV7ebRKar", landmark: "Fancy Bazar", lat: 26.1830738, lng: 91.74049769999999, title: "Fancy", user_id: "1"},
   {address: "Kanuat palace, India", house: "Ground Floor", id: "8Kox63KlggTvV7ebRKar", landmark: "Bazar", lat: 26.1830738, lng: 91.74049769999999, title: "Work", user_id: "1"}
 ];
 
- restaurant1 = [
+restaurantsItem = [
   {
     uid: 4,
     banner: 'assets/img/4.jpg',
@@ -114,20 +115,20 @@ allItems = [
     variation: false,
     veg: true,
   },
-  {
-    category_id: 'e00',
-    cover: 'assets/img/black.jpg',
-    desc: 'Great in taste',
-    id: 'i3',
-    name: 'Black Coffee',
-    price: '₹80/',
-    price_tally: 80.0,
-    rating: 0,
-    status: true,
-    uid: '4',
-    variation: false,
-    veg: false,
-  },
+  // {
+  //   category_id: 'e00',
+  //   cover: 'assets/img/black.jpg',
+  //   desc: 'Great in taste',
+  //   id: 'i3',
+  //   name: 'Black Coffee',
+  //   price: '₹80/',
+  //   price_tally: 80.0,
+  //   rating: 0,
+  //   status: true,
+  //   uid: '4',
+  //   variation: false,
+  //   veg: false,
+  // },
   {
     category_id: 'e000',
     cover: 'assets/img/d2.jpg',

@@ -60,6 +60,8 @@ export class CartService {
       items: order.order
     };
     this.model = data;
+    //console.log("inside order to cart"+ this.model);
+    
     await this.calculate();
     this.saveCart();
     console.log('model: ', this.model);

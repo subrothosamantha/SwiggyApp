@@ -38,11 +38,15 @@ export class CartPage implements OnInit {
   ngOnInit() {
     this.cartSub = this.cartService.cart.subscribe(cart => {
       this.model = cart;
+      
+      
       if(!this.model)
          this.location = {};
     });
    /// this.checkUrl();
+    console.log("inside cart" +this.model);
     this.getData();
+    
   }
 
   getCart() {
@@ -93,9 +97,11 @@ export class CartPage implements OnInit {
   changeAddress() {}
 
  async makePayment() {
+   console.log("this is model " + this.model.restaurant_id);
+   
     try{
       const data = {
-        restaurant_id : this.model.restaurant_id,
+        restaurant_id : this.model.restaurant_uid,
         instruction : this.instruction? this.instruction : "no instruction",
         rest : this.model.restaurant,
         order: JSON.stringify(this.model.items),
