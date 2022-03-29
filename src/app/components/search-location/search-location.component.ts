@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Address } from 'src/app/models/address.model';
+import { AddressService } from 'src/app/services/address/address.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 
@@ -13,17 +15,43 @@ export class SearchLocationComponent implements OnInit {
   query: string;
   places: any[] = [];
   placeSub: Subscription;
+  @Input() from;
+  addressSub: Subscription;
+  savedPlaces: any;
 
   constructor(
     private global: GlobalService, 
-    private maps: GoogleMapsService
+    private maps: GoogleMapsService,
+    private addressService: AddressService
   ) { }
 
   ngOnInit() {
     // this.placeSub = this.maps.places.subscribe(places => {
     //   this.places = places;
     // });
+    if(this.from){
+      this.getSavedPlaces();
+    }
   }
+  selectSavedPlace(place) {
+    this.dismiss(place);
+  }
+
+
+  async getSavedPlaces(){
+    this.global.showLoader();
+    this.addressSub = this.addressService.addresses.subscribe(address=>{
+      this.savedPlaces = address;
+    });
+    await this.addressService.getAddress();
+    this.global.hideLoader();
+  }
+
+  choosePlace(place) {
+    console.log(place);
+    this.dismiss(place);
+  }
+
 
   async onSearchChange(event) {
     console.log(event);
@@ -39,6 +67,7 @@ export class SearchLocationComponent implements OnInit {
 
   ngOnDestroy() {
     if(this.placeSub) this.placeSub.unsubscribe();
+    if(this.addressSub) this.addressSub.unsubscribe();
   }
 
 }

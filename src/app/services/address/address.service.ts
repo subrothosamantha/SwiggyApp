@@ -79,4 +79,9 @@ export class AddressService {
     currentAddresses = currentAddresses.filter(x => x.id != param.id);
     this._addresses.next(currentAddresses);
   }
+
+  changeAddress(address) {
+    this._addressChange.next(address);
+  }
+ 
 }

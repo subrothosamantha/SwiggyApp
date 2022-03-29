@@ -82,6 +82,11 @@
   border-radius: 5px !important;
 }
 
+.custom-modal .modal-wrapper {
+  --height: 70%;
+  margin-top: 40% !important;
+  border-radius: 5px !important;
+}
 
 @media (prefers-color-scheme: dark) {
   /*

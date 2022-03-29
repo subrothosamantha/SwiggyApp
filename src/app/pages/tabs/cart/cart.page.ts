@@ -10,6 +10,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 import { Subscription } from 'rxjs';
 import { Address } from 'src/app/models/address.model';
 import { AddressService } from 'src/app/services/address/address.service';
+import { SearchLocationComponent } from 'src/app/components/search-location/search-location.component';
 
 @Component({
   selector: 'app-cart',
@@ -107,7 +108,26 @@ export class CartPage implements OnInit,OnDestroy {
     this.router.navigate(url);
   }
 
-  changeAddress() {}
+  async changeAddress() {
+    
+    try{
+      const options = {
+        Component: SearchLocationComponent,
+        swipeToCloase: true,
+        cssClass: 'custom-modal',
+        componentProps:{
+          from: 'cart'
+        }
+      }
+      const address = await this.global.createModal(options);
+      if(address){
+        await this.addressService.changeAddress(address);
+      }
+    }catch(e){
+      console.log(e);
+      
+    }
+  }
 
  async makePayment() {
    console.log("this is model " + this.model.restaurant_id);
