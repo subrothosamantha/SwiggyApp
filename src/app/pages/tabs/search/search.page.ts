@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { element } from 'protractor';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { ApiService } from 'src/app/services/api/api.service';
 
 
@@ -15,11 +16,11 @@ export class SearchPage implements OnInit {
   constructor(private api: ApiService) { }
 
   @ViewChild('searchBar') sInput;
-  allRestaurants: any[] = [];
+  allRestaurants: Restaurant[] = [];
   query : any;
   isLoading:boolean;
 
-  restaurant: any[] = [];
+  restaurant: Restaurant[] = [];
   model:any = {
     icon:'search-outline',
     title:'no restaurant matching record'

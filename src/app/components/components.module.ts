@@ -9,12 +9,16 @@ import { EmptyScreenComponent } from './empty-screen/empty-screen.component';
 import { RouterLink } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
 import { ItemsPageRoutingModule } from '../pages/tabs/items/items-routing.module';
+import { SearchLocationComponent } from './search-location/search-location.component';
 
 
 
 
 @NgModule({
-  declarations: [RestaurantComponent,LoadingRestaurantComponent,EmptyScreenComponent],
+  declarations: [RestaurantComponent,
+    LoadingRestaurantComponent,
+    EmptyScreenComponent,
+    SearchLocationComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -24,8 +28,10 @@ import { ItemsPageRoutingModule } from '../pages/tabs/items/items-routing.module
   exports:[
     RestaurantComponent,
     LoadingRestaurantComponent,
-    EmptyScreenComponent
+    EmptyScreenComponent,
+    SearchLocationComponent
   ],
-  entryComponents:[]
+  //only those components not defined in template
+  entryComponents:[SearchLocationComponent]
 })
 export class ComponentsModule { }

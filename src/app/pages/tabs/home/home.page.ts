@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { ApiService } from 'src/app/services/api/api.service';
 
 
@@ -12,7 +13,7 @@ export class HomePage implements OnInit {
   constructor(private api:ApiService) { }
 
   banner:any[] ;
-  restaurants: any[]; 
+  restaurants: Restaurant[]; 
   isLoading: boolean = false;
 
   ngOnInit() {

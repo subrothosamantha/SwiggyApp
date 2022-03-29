@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@capacitor/storage';
 import { IonContent, NavController } from '@ionic/angular';
@@ -8,13 +8,15 @@ import { GlobalService } from 'src/app/services/global/global.service';
 import { OrderService } from 'src/app/services/order/order.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { Subscription } from 'rxjs';
+import { Address } from 'src/app/models/address.model';
+import { AddressService } from 'src/app/services/address/address.service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
 })
-export class CartPage implements OnInit {
+export class CartPage implements OnInit,OnDestroy {
 
   @ViewChild(IonContent, {static:false}) content:IonContent;
 
@@ -23,8 +25,9 @@ export class CartPage implements OnInit {
   model: any = {};
   deliveryCharge = 20;
   instruction: any;
-  location:any ;
+  location= {} as Address ;
   cartSub:Subscription;
+  addressSub: Subscription;
 
   constructor(
     private navCtrl: NavController,
@@ -32,19 +35,24 @@ export class CartPage implements OnInit {
     private orderService:OrderService,
     private global: GlobalService,
     private cartService: CartService,
+    private addressService : AddressService
     
     ) {}
 
   ngOnInit() {
+    // this.addressSub = this.addressService.addressChange.subscribe(address => {
+    //   this.location = address;
+    // });
+    this.addressSub = this.addressService.addressChange.subscribe(address=>{
+      this.location = address;
+    })
     this.cartSub = this.cartService.cart.subscribe(cart => {
+      console.log('cart page: ', cart);
       this.model = cart;
-      
-      
-      if(!this.model)
-         this.location = {};
+      if(!this.model) this.location = {} as Address;
+      console.log('cart page model: ', this.model);
     });
-   /// this.checkUrl();
-    console.log("inside cart" +this.model);
+    
     this.getData();
     
   }
@@ -55,11 +63,11 @@ export class CartPage implements OnInit {
 
   async getData() {
     await this.checkUrl();
-    this.location = {
-      lat: 28.653831, 
-      lng: 77.188257, 
-      address: 'Karol Bagh, New Delhi'
-    };
+    // this.location = {
+    //   lat: 28.653831, 
+    //   lng: 77.188257, 
+    //   address: 'Karol Bagh, New Delhi'
+    // };
     await this.cartService.getCartData();
   }
 
@@ -92,7 +100,12 @@ export class CartPage implements OnInit {
     this.cartService.quantityMinus(index);
   }
 
-  addAddress() {}
+  addAddress() {
+    let url: any;
+    if(this.urlCheck == 'tabs') url = ['/', 'tabs', 'address', 'edit-address'];
+    else url = [this.router.url, 'address', 'edit-address'];
+    this.router.navigate(url);
+  }
 
   changeAddress() {}
 
@@ -136,6 +149,13 @@ export class CartPage implements OnInit {
       this.cartService.saveCart();
     }
   }
+
+  ngOnDestroy(): void {
+      if(this.addressSub)
+      this.addressSub.unsubscribe();
+      if(this.cartSub)
+      this.cartSub.unsubscribe();
+  }
 }
 
 
@@ -159,7 +179,7 @@ export class CartPage implements OnInit {
   //    // console.log(url);
   //     const spliced = url.splice(url.length-2,2);
   //     this.urlCheck = spliced[0];
-  //     url.push(this.urlCheck);
+  //     url.push(this.urlCheck); 
   //     this.url = url;
   //    // console.log(this.url);
   //   }

@@ -10,7 +10,7 @@ import { StorageService } from '../storage/storage.service';
 export class CartService {
 
   constructor(
-    private storageService:StorageService,
+   
     private global:GlobalService,
     private storage:StorageService,
     private router: Router
@@ -111,7 +111,10 @@ export class CartService {
 
 
   async calculate() {
+   
+    
     let item = this.model.items.filter(x => x.quantity > 0);
+    
     this.model.items = item;
     this.model.totalPrice = 0;
     this.model.totalItem = 0;
@@ -119,11 +122,13 @@ export class CartService {
     this.model.grandTotal = 0;
     item.forEach(element => {
       this.model.totalItem += element.quantity;
-      this.model.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity));
+      // this.model.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity));
+      this.model.totalPrice += element.price * element.quantity;
     });
     this.model.deliveryCharge = this.delivaryCharges;
-    this.model.totalPrice = parseFloat(this.model.totalPrice).toFixed(2);
-    this.model.grandTotal = (parseFloat(this.model.totalPrice) + parseFloat(this.model.deliveryCharge)).toFixed(2);
+    // this.model.totalPrice = parseFloat(this.model.totalPrice).toFixed(2);
+    // this.model.grandTotal = (parseFloat(this.model.totalPrice) + parseFloat(this.model.deliveryCharge)).toFixed(2);
+    this.model.grandTotal = this.model.totalPrice + this.model.deliveryCharge;
     if(this.model.totalItem == 0) {
       this.model.totalItem = 0;
       this.model.totalPrice = 0;
@@ -136,13 +141,13 @@ export class CartService {
 
  async clearCart() {
     this.global.showLoader();
-    await this.storageService.removeStorage('cart');
+    await this.storage.removeStorage('cart');
     this._cart.next(null);
     this.global.hideLoader();
   }
 
   getCart(){
-   return this.storageService.getStorage('cart');
+   return this.storage.getStorage('cart');
  }
 
  async getCartData(){

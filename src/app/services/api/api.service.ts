@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Address } from 'src/app/models/address.model';
+import { Category } from 'src/app/models/category.model';
+import { Restaurant } from 'src/app/models/restaurant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +13,11 @@ export class ApiService {
   banner = [{banner:'assets/img/1.jpg'},{banner:'assets/img/2.jpg'},
   {banner:'assets/img/3.jpg'}];
 
-  restaurants = [
+  restaurants : Restaurant[] = [
     {uid:4,banner:'assets/img/4.jpg',name:"Chia's Cafe",short_name:'chiascafe',cuisine:['Coffee','Cappuccino'],time:"5 Mins",price:"₹80/",rating:"5"},
     {uid:1,banner:'assets/img/3.jpg',name:"stayfit",short_name:'stayfit',cuisine:['Italian','Mexican'],time:"25 Mins",price:"₹200/",rating:"3"},
-    {uid:2,banner:'assets/img/2.jpg',name:"Veggies Fresh",short_name:'veggiesfresh',cuisine:["French","Mexican"],time:"15 Mins",price:"₹150/"},
-    {uid:3,banner:'assets/img/1.jpg',name:"Bread Toast",short_name:'bread-toast',cuisine:["French","Mexican"],time:"10 Mins",price:"₹100/"}
+    {uid:2,banner:'assets/img/2.jpg',name:"Veggies Fresh",short_name:'veggiesfresh',cuisine:["French","Mexican"],time:"15 Mins",price:"₹150/",rating:"3"},
+    {uid:3,banner:'assets/img/1.jpg',name:"Bread Toast",short_name:'bread-toast',cuisine:["French","Mexican"],time:"10 Mins",price:"₹100/",rating:"3"}
  ];
 
  addresses: Address[] = [      
@@ -23,7 +25,7 @@ export class ApiService {
   {address: "Kanuat palace, India", house: "Ground Floor", id: "8Kox63KlggTvV7ebRKar", landmark: "Bazar", lat: 26.1830738, lng: 91.74049769999999, title: "Work", user_id: "1"}
 ];
 
-restaurantsItem = [
+restaurantsItem: Restaurant[] = [
   {
     uid: 4,
     banner: 'assets/img/4.jpg',
@@ -55,6 +57,7 @@ restaurantsItem = [
     cuisine: ['French', 'Mexican'],
     time: '15 Mins',
     price: '₹150/',
+    rating: '3',
   },
   {
     uid: 3,
@@ -65,10 +68,12 @@ restaurantsItem = [
     cuisine: ['French', 'Mexican'],
     time: '10 Mins',
     price: '₹100/',
+   rating: '3',
+
   },
 ];
 
-categories: any[] = [
+categories: Category[] = [
   {
     id: 'e00',
     name: 'Coffee',

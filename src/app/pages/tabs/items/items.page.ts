@@ -26,25 +26,22 @@ export class ItemsPage implements OnInit,OnDestroy {
      private storageService : StorageService
      ) {}
 
-  
+  uid: any;
 
   restaurants : any[] = [];
+  categories: any[] = [];
+  allItems :any[]= [];
 
   id: any;
   data: any = {};
   items: any[] = [];
+  category: any[] = [];
+  value: any = {};
   veg: boolean = false;
-  isLoading: boolean;
-  cartData: any = {};
+  cartData: any = [];
   storedData: any = {};
-  model = {
-    icon: 'fast-food-outline',
-    title: 'No Menu Available'
-  };
-  // restaurants: any[] = [];  
-  categories: any[] = [];
-  allItems: any[] = [];
-  cartSub: Subscription;
+  isLoading:boolean;
+  cartSub : Subscription;
   routeSub : Subscription;
 
  
@@ -82,7 +79,7 @@ export class ItemsPage implements OnInit,OnDestroy {
           this.cartData.items = this.allItems.filter(x => x.quantity > 0);
           if(this.veg == true) this.items = this.allItems.filter(x => x.veg === true);
           else this.items = [...this.allItems];
-        } else {
+        }else {
           this.allItems.forEach(element => {            
               element.quantity = 0;
           });
@@ -111,10 +108,10 @@ export class ItemsPage implements OnInit,OnDestroy {
       setTimeout(async() => {      
         // this.categories = this.api.categories;
         this.allItems = this.api.allItems;
-        let data: any = this.api.restaurantsItem.filter(x => x.uid === this.id);
+        let data: any = this.api.restaurantsItem.filter(x => x.uid == this.id);
         this.data = data[0];
-        this.categories = this.api.categories.filter(x => x.uid === this.id);
-        this.allItems = this.api.allItems.filter(x => x.uid === this.id);
+        this.categories = this.api.categories.filter(x => x.uid == this.id);
+        this.allItems = this.api.allItems.filter(x => x.uid == this.id);
         this.items = [...this.allItems];
         console.log('restaurant: ', this.data);
         await this.cartService.getCartData();
@@ -131,12 +128,12 @@ export class ItemsPage implements OnInit,OnDestroy {
     console.log(event.detail.checked);
     this.items = [];
     if (event.detail.checked == true)
-      this.items = this.allItems.filter((x) => x.veg === true);
+      this.items = this.allItems.filter((x) => x.veg == true);
     else this.items = this.allItems;
   }
 
   quantityPlus(item) {
-    const index = this.allItems.findIndex(x => x.id === item.id);
+    const index = this.allItems.findIndex(x => x.id == item.id);
     console.log(index);
     if(!this.allItems[index].quantity || this.allItems[index].quantity == 0) {
       if(!this.storedData.restaurant || (this.storedData.restaurant && this.storedData.restaurant.uid == this.id)) {
@@ -153,7 +150,7 @@ export class ItemsPage implements OnInit,OnDestroy {
 
  async quantityMinus(item) {
    console.log("item id "+item.id);
-  const index = this.allItems.findIndex(x => x.id === item.id);
+  const index = this.allItems.findIndex(x => x.id == item.id);
   console.log('Index '+index);
     this.cartService.quantityMinus(index);
   }

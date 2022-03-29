@@ -76,6 +76,13 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
+.address-modal .modal-wrapper {
+  --height: 70%;
+  margin-top: 55% !important;
+  border-radius: 5px !important;
+}
+
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors

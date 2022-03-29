@@ -9,9 +9,14 @@ import { ApiService } from '../api/api.service';
 export class AddressService {
 
   private _addresses = new BehaviorSubject<Address[]>([]);
+  private _addressChange = new BehaviorSubject<Address>(null);
 
   get addresses(){
      return this._addresses.asObservable();
+  }
+
+  get addressChange(){
+    return this._addressChange.asObservable();
   }
 
 
@@ -32,8 +37,7 @@ export class AddressService {
     param.id = 'address1';
     param.user_id = 'user1'
     const currentAddresses =  this._addresses.value;
-    currentAddresses.push(
-      new Address(
+    const data = new Address(
         param.id,
         param.user_id,
         param.title,
@@ -42,9 +46,10 @@ export class AddressService {
         param.house,
         param.lat,
         param.lng
-      )
-    );
+      );
+    currentAddresses.push(data);
     this._addresses.next(currentAddresses);
+    this._addressChange.next(data);
   }
 
   async updateAddress(id,param){
