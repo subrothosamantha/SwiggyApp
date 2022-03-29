@@ -22,22 +22,15 @@ export class AddressPage implements OnInit,OnDestroy {
   constructor(private global : GlobalService,
              private addressService: AddressService) { }
 
+
+  /**
+   * subscribing all the changes that are appearing in all 
+   * addresses
+   */           
   ngOnInit() {
     this.addressesSub = this.addressService.addresses.subscribe(address => {
       console.log('addresses: ', address);
       this.addresses = address;
-      // if(address instanceof Array) {
-      //   this.addresses = address;
-      // } else {
-      //   if(address?.delete) {
-      //     this.addresses = this.addresses.filter(x => x.id != address.id);
-      //   } else if(address?.update) {
-      //     const index = this.addresses.findIndex(x => x.id == address.id);
-      //     this.addresses[index] = address;
-      //   } else {
-      //     this.addresses = this.addresses.concat(address);
-      //   }
-      // }
     });
     this.getAddresses();
   }

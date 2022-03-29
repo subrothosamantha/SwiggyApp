@@ -11,6 +11,8 @@ export class AddressService {
   private _addresses = new BehaviorSubject<Address[]>([]);
   private _addressChange = new BehaviorSubject<Address>(null);
 
+
+  //this is getting called from address page to subscribe the address
   get addresses(){
      return this._addresses.asObservable();
   }
@@ -25,7 +27,10 @@ export class AddressService {
   getAddress(){
     try{
       let allAddress:Address[] = this.api.addresses;
+
       //it will monitor if any changes were made in the code or not
+      //the next here is a kind to emit function that we used in angular
+
       this._addresses.next(allAddress);
   }catch(e){
     console.log(e);
@@ -85,3 +90,4 @@ export class AddressService {
   }
  
 }
+ 

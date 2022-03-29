@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { GlobalService } from '../global/global.service';
 import { StorageService } from '../storage/storage.service';
 
@@ -22,6 +23,21 @@ export class CartService {
 
   get cart(){
     return this._cart.asObservable();
+  }
+
+  getCart(){
+    return this.storage.getStorage('cart');
+  }
+  
+  async getCartData() {
+    let data: any = await this.getCart();
+    console.log('data: ', data);
+    if(data?.value) {
+      this.model = await JSON.parse(data.value);
+      console.log('model: ', this.model);
+      await this.calculate();
+      this._cart.next(this.model);
+    }
   }
 
   alertClearCart(index, items, data, order?) {
@@ -53,40 +69,40 @@ export class CartService {
     )
   }
 
-  async orderToCart(order) {
+  async orderToCart(order: any) {
     console.log('order: ', order);
     const data = {
       restaurant: order.restaurant,
       items: order.order
     };
     this.model = data;
-    //console.log("inside order to cart"+ this.model);
-    
     await this.calculate();
     this.saveCart();
     console.log('model: ', this.model);
     this._cart.next(this.model);
     this.router.navigate(['/', 'tabs', 'restaurants', order.restaurant_id]);
-  } 
+  }
   
- async quantityPlus(index,items?,restaurant?) {
+  async quantityPlus(index, items?: any[], restaurant?: Restaurant) {
     try {
-      if(items) this.model.items = [...items];
+      if(items) {
+        console.log('model: ', this.model);
+        this.model.items = [...items];
+      }
       if(restaurant) {
-        this.model.restaurant = {}; 
+        // this.model.restaurant = {}; 
         this.model.restaurant = restaurant; 
       }
       console.log('q plus: ', this.model.items[index]);
-      if (!this.model.items[index].quantity || this.model.items[index].quantity == 0) {
+      // this.model.items[index].quantity += 1;
+      if(!this.model.items[index].quantity || this.model.items[index].quantity == 0) {
         this.model.items[index].quantity = 1;
-        this.calculate();
       } else {
-        this.model.items[index].quantity += 1;
+        this.model.items[index].quantity += 1; // this.model.items[index].quantity = this.model.items[index].quantity + 1
       }
       await this.calculate();
       this._cart.next(this.model);
-      
-    } catch (e) {
+    } catch(e) {
       console.log(e);
       throw(e);
     }
@@ -94,27 +110,31 @@ export class CartService {
 
  
 
- async quantityMinus(index) {
-  try {
-    if(this.model.items[index].quantity !== 0) {
-      this.model.items[index].quantity -= 1; // this.model.items[index].quantity = this.model.items[index].quantity - 1
-    } else {
-      this.model.items[index].quantity = 0;
+  async quantityMinus(index, items?: any[]) {
+    try {
+      if(items) {
+        console.log('model: ', this.model);
+        this.model.items = [...items];
+      }
+      console.log('item: ', this.model.items[index]);
+      if(this.model.items[index].quantity && this.model.items[index].quantity !== 0) {
+        this.model.items[index].quantity -= 1; // this.model.items[index].quantity = this.model.items[index].quantity - 1
+      } else {
+        this.model.items[index].quantity = 0;
+      }
+      await this.calculate();
+      this._cart.next(this.model);
+    } catch(e) {
+      console.log(e);
+      throw(e);
     }
-    await this.calculate();
-    this._cart.next(this.model);
-  } catch(e) {
-    console.log(e);
-    throw(e);
   }
-  }
-
 
   async calculate() {
    
     
     let item = this.model.items.filter(x => x.quantity > 0);
-    
+    // console.log('item value '+item);
     this.model.items = item;
     this.model.totalPrice = 0;
     this.model.totalItem = 0;
@@ -122,9 +142,11 @@ export class CartService {
     this.model.grandTotal = 0;
     item.forEach(element => {
       this.model.totalItem += element.quantity;
-      // this.model.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity));
-      this.model.totalPrice += element.price * element.quantity;
-    });
+       this.model.totalPrice += (parseFloat(element.price_tally) * parseFloat(element.quantity));
+     // this.model.totalPrice += element.price * element.quantity;
+      console.log('total price '+this.model.totalPrice);
+      
+     });
     this.model.deliveryCharge = this.delivaryCharges;
     // this.model.totalPrice = parseFloat(this.model.totalPrice).toFixed(2);
     // this.model.grandTotal = (parseFloat(this.model.totalPrice) + parseFloat(this.model.deliveryCharge)).toFixed(2);
@@ -146,21 +168,9 @@ export class CartService {
     this.global.hideLoader();
   }
 
-  getCart(){
-   return this.storage.getStorage('cart');
- }
+  
 
- async getCartData(){
-    let data: any = await this.getCart();
-   
-    if (data?.value) {
-    //  this.model.icon = 'assets/img/empty.jpg';
-      this.model = await JSON.parse(data.value);
-      console.log(this.model);
-      await this.calculate();
-      this._cart.next(this.model);
-    }
-  }
+ 
 
   saveCart(model?) {
     if(model) this.model = model;

@@ -134,7 +134,7 @@ export class ItemsPage implements OnInit,OnDestroy {
 
   quantityPlus(item) {
     const index = this.allItems.findIndex(x => x.id == item.id);
-    console.log(index);
+    console.log('index value '+index);
     if(!this.allItems[index].quantity || this.allItems[index].quantity == 0) {
       if(!this.storedData.restaurant || (this.storedData.restaurant && this.storedData.restaurant.uid == this.id)) {
         this.cartService.quantityPlus(index, this.allItems, this.data);
@@ -145,7 +145,7 @@ export class ItemsPage implements OnInit,OnDestroy {
     } else {
       this.cartService.quantityPlus(index, this.allItems, this.data);
     }  
-    console.log("cartData "+this.cartData.totalPrice);
+    console.log("cartData "+this.cartData);
   }
 
  async quantityMinus(item) {
@@ -170,7 +170,6 @@ export class ItemsPage implements OnInit,OnDestroy {
     console.log('save cartdata: ', this.cartData);
     if(this.cartData.items && this.cartData.items.length > 0) await this.saveToCart();
     console.log('router url: ', this.router.url);
-    
     
     this.router.navigate(['/','tabs','cart']);
   }
