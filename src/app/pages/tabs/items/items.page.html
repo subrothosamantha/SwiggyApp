@@ -65,11 +65,10 @@
       </ion-list-header>
 
 
-      <ng-container *ngFor="let item of items let i = index">
+       <ng-container *ngFor="let item of items let i = index">
 
        <app-item [item]="item" [index]="i" (add)="quantityPlus($event)"
-        (minus)="quantityMinus($event)" *ngIf="catagory.id == item.category_id"></app-item>
-     
+        (minus)="quantityMinus($event)" *ngIf="catagory.id == item.category_id"></app-item> 
      
       </ng-container>
 
